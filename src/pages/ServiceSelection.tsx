@@ -74,7 +74,7 @@ export const ServiceSelection = () => {
                           <ServiceCard
                             data={{
                               ...selectedPharmacy,
-                              service: service,
+                              availableServices: service,
                             }}
                           />
                         </Col>

@@ -4,7 +4,7 @@ import { PharmacyDataProps, ServiceProps } from '../../definition';
 import { formatCurrency } from '../../utils/formatCurrency';
 
 type ServiceCardProps = {
-  data: PharmacyDataProps & { service: ServiceProps };
+  data: PharmacyDataProps & { availableServices: ServiceProps };
 };
 
 export const ServiceCard = ({ data }: ServiceCardProps) => {
@@ -16,7 +16,7 @@ export const ServiceCard = ({ data }: ServiceCardProps) => {
     toggleServiceSelection,
   } = useServiceContext();
 
-  const service = data.service;
+  const service = data.availableServices;
   const isSelected = listOfServices.find(
     (item) => item.id === service.id
   )?.selected;
@@ -45,7 +45,10 @@ export const ServiceCard = ({ data }: ServiceCardProps) => {
             {isSelected && (
               <div className='counter'>
                 <button
-                  onClick={() => decreaseItemQuantity(service.id)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    decreaseItemQuantity(service.id);
+                  }}
                   className='counter__btn'
                   disabled={!isSelected}
                 >
@@ -55,7 +58,10 @@ export const ServiceCard = ({ data }: ServiceCardProps) => {
                   {getItemQuantity(service.id)}
                 </span>
                 <button
-                  onClick={() => increaseItemQuantity(service.id)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    increaseItemQuantity(service.id);
+                  }}
                   className='counter__btn'
                   disabled={!isSelected}
                 >
