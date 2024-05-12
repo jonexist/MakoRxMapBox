@@ -22,11 +22,11 @@ export const ServiceCard = ({ data }: ServiceCardProps) => {
   )?.selected;
 
   return (
-    <div
-      onClick={() => toggleServiceSelection(service.id)}
-      style={{ cursor: 'pointer' }}
-    >
-      <Card style={{ backgroundColor: isSelected ? '#E8F7FF' : 'white' }}>
+    <div style={{ cursor: 'pointer' }}>
+      <Card
+        onClick={() => toggleServiceSelection(service.id)}
+        style={{ backgroundColor: isSelected ? '#E8F7FF' : 'white' }}
+      >
         <Card.Body>
           <div className='d-flex align-items-center justify-content-between'>
             <CardText className='fw-bold'>{service.title}</CardText>
@@ -75,12 +75,8 @@ export const ServiceCard = ({ data }: ServiceCardProps) => {
               label='Select'
               id={`select-${service.id}`}
               type='checkbox'
-              onChange={(e) => {
-                e.stopPropagation();
-                toggleServiceSelection(service.id);
-              }}
+              onChange={(e) => e.stopPropagation()}
               checked={isSelected}
-              readOnly
             />
           </div>
         </Card.Body>
