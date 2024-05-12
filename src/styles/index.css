@@ -89,3 +89,10 @@ ul {
 .form-check-inline {
   margin-right: 0 !important;
 }
+
+/* Small devices (landscape phones, 576px and up) */
+@media (max-width: 576px) {
+  .mapboxgl {
+    height: 450px;
+  }
+}
