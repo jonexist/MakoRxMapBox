@@ -7,6 +7,7 @@ import { Button, Col, Row, Spinner } from 'react-bootstrap';
 import { SelectedPharmacy } from '../components/service-selection/SelectedPharmacy';
 import { ServiceCard } from '../components/service-selection/ServiceCard';
 import { v4 as uuidv4 } from 'uuid';
+import { ServicesDropdown } from '../components/service-selection/ServicesDropdown';
 
 export const ServiceSelection = () => {
   // These states store the loading status and the selected pharmacy.
@@ -34,14 +35,22 @@ export const ServiceSelection = () => {
     (service) => service.selected
   );
 
+  // This constant is used to filter the services from the pharmacy services data.
+  const servicesTitle = pharmacyServices.map((service) => service.title);
+
   return (
     <div>
       <HeaderWithSubtitle
         title='Book an Appointment'
         subtitle='Book your pharmacy visit - MAKO Rx Care Connect works together to provide you special services and testing.'
-        hasHr={true}
       />
 
+      {/* Render the filter services dropdown. */}
+      <div className='mb-3 d-flex justify-content-end'>
+        <ServicesDropdown services={servicesTitle} />
+      </div>
+
+      {/* Render the map container. */}
       <div ref={mapContainer} className='mapboxgl' />
       <Row className='mt-4'>
         {selectedPharmacy ? (

@@ -5,7 +5,7 @@ type UserLocationProps = {
   geolocateRef: React.MutableRefObject<GeolocateControl | null>;
 };
 
-const getUserLocation = ({ map, geolocateRef }: UserLocationProps) => {
+const addGeolocateControl = ({ map, geolocateRef }: UserLocationProps) => {
   const geolocate = new mapboxgl.GeolocateControl({
     positionOptions: {
       enableHighAccuracy: true,
@@ -17,4 +17,4 @@ const getUserLocation = ({ map, geolocateRef }: UserLocationProps) => {
   geolocateRef.current = geolocate;
 };
 
-export default getUserLocation;
+export default addGeolocateControl;

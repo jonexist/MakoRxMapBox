@@ -2,7 +2,7 @@ import mapboxgl, { GeolocateControl, Map, Marker } from 'mapbox-gl';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import getPharmacy from '../api/getPharmacy';
 import { MapStateProps, PharmacyDataProps } from '../definition';
-import getUserLocation from '../utils/getUserLocation';
+import addGeolocateControl from '../utils/addGeolocateControl';
 import { addNavigationControl } from '../utils/addNavigationControl';
 
 mapboxgl.accessToken = import.meta.env.VITE_API_KEY as string;
@@ -100,7 +100,7 @@ export const useMapBox = (): UseMapBoxProps => {
 
     const map = mapRef.current;
     const loadListener = () => {
-      getUserLocation({ map, geolocateRef });
+      addGeolocateControl({ map, geolocateRef });
       addNavigationControl(map);
     };
 

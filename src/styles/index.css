@@ -96,3 +96,10 @@ ul {
     height: 450px;
   }
 }
+
+/* Medium devices (tablets, 768px and up) */
+@media (max-width: 768px) {
+  .filter__service___dropdown {
+    width: 100% !important;
+  }
+}
