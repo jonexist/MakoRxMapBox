@@ -31,10 +31,13 @@ const processPharmacyData = ({
 }: PharmacyPopup): void => {
   const { coordinates } = pharmacyData.geometry;
 
+  // Create a marker for each pharmacy
   const marker = new Marker().setLngLat(coordinates).addTo(map);
 
+  // Add the marker to the markerRef
   markerRef.current.push(marker);
 
+  // Add a popup to the marker
   PopupMarker({
     map,
     marker,
@@ -57,8 +60,11 @@ const getPharmacy = async ({
 }: GetPharmacyProps & {
   onClickPharmacy: (pharmacyData: PharmacyDataProps) => void;
 }): Promise<PharmacyDataProps[] | undefined> => {
+  // Destructure the location coordinates
   const [lng, lat] = locationCoords;
+  // Define the place type for the pharmacy
   const placeType = 'pharmacy';
+  // Define the endpoint for the pharmacy data
   const endpoint = api({ placeType, lng, lat, token });
   markerRef.current.forEach((marker) => marker.remove());
   markerRef.current = [];
@@ -66,6 +72,7 @@ const getPharmacy = async ({
   try {
     const response = await fetch(endpoint, { signal: abortController.signal });
     const data = await response.json();
+    // Process the pharmacy data and add markers to the map
     data.features.forEach((pharmacyData: PharmacyDataProps) => {
       processPharmacyData({
         map: mapRef.current!,

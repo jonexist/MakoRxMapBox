@@ -5,6 +5,7 @@ import { MapStateProps, PharmacyDataProps } from '../definition';
 import addGeolocateControl from '../utils/addGeolocateControl';
 import { addNavigationControl } from '../utils/addNavigationControl';
 
+// Set the Mapbox access token
 mapboxgl.accessToken = import.meta.env.VITE_API_KEY as string;
 
 type UseMapBoxProps = {
@@ -14,10 +15,13 @@ type UseMapBoxProps = {
 };
 
 export const useMapBox = (): UseMapBoxProps => {
+  // Store the map container ref
   const mapContainer = useRef<HTMLDivElement | null>(null);
+  // Store the pharmacy data
   const [pharmacyData, setPharmacyData] = useState<
     PharmacyDataProps[] | undefined
   >([]);
+  // Store the pharmacy data that is clicked
   const [pharmacyDataOnClick, setPharmacyDataOnClick] =
     useState<PharmacyDataProps | null>(null);
   const mapRef = useRef<Map | null>(null);
@@ -115,6 +119,7 @@ export const useMapBox = (): UseMapBoxProps => {
   useEffect(() => {
     const abortController = new AbortController();
     if (mapRef.current) {
+      // Fetch the pharmacy data
       getPharmacy({
         mapRef: mapRef,
         locationCoords: locationProximity as [number, number],

@@ -14,6 +14,7 @@ type PopupEventProps = Omit<PopupProps, 'popupText'> & {
   popup: Popup;
 };
 
+// Function to add the popup event to the marker
 const addPopupEvent = ({
   pharmacyId,
   map,
@@ -21,6 +22,7 @@ const addPopupEvent = ({
   popup,
   onClickPharmacy,
 }: PopupEventProps) => {
+  // Add the event listener to the marker
   marker.getElement().addEventListener('click', () => {
     map.flyTo({
       center: marker.getLngLat(),
@@ -40,6 +42,7 @@ const addPopupEvent = ({
   });
 };
 
+// Function to create the popup marker
 export const PopupMarker = ({
   pharmacyId,
   map,
@@ -47,6 +50,7 @@ export const PopupMarker = ({
   popupText,
   onClickPharmacy,
 }: PopupProps) => {
+  // Create the button element for the popup marker using ReactDOMServer
   const button = ReactDOMServer.renderToString(
     <Button
       variant='primary'
@@ -58,10 +62,13 @@ export const PopupMarker = ({
     </Button>
   );
 
+  // Create the popup element for the marker
   const popup = new Popup({ offset: 25 }).setHTML(`${popupText}<br>${button}`);
 
+  // Set the popup to the marker
   marker.setPopup(popup);
 
+  // Add the popup event to the marker
   addPopupEvent({
     pharmacyId,
     map,
