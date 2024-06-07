@@ -8,13 +8,18 @@ import { SelectedPharmacy } from '../components/service-selection/SelectedPharma
 import { ServiceCard } from '../components/service-selection/ServiceCard';
 import { v4 as uuidv4 } from 'uuid';
 import { ServicesDropdown } from '../components/service-selection/ServicesDropdown';
+import { TotalPrice } from '../components/service-selection/TotalPrice';
 
 export const ServiceSelection = () => {
   // These states store the loading status and the selected pharmacy.
   const [isLoading, setIsLoading] = useState(false);
   const { mapContainer, pharmacyDataOnClick } = useMapBox();
-  const { listOfServices, selectedPharmacy, setSelectedPharmacy } =
-    useServiceContext();
+  const {
+    listOfServices,
+    selectedPharmacy,
+    setSelectedPharmacy,
+    serviceTotalPrice,
+  } = useServiceContext();
 
   // This effect sets the selected pharmacy and its services when a pharmacy is clicked.
   useEffect(() => {
@@ -91,15 +96,22 @@ export const ServiceSelection = () => {
                     </Row>
                   </>
                 )}
+                {/* Render the total price and proceed to checkout button. */}
                 {isLoading ? null : allSelectedServices.length > 0 ? (
-                  <div className='mt-3 d-flex justify-content-end'>
-                    <Button
-                      variant='primary'
-                      onClick={() => console.log('Proceed to Checkout')}
-                    >
-                      Proceed to next step
-                    </Button>
-                  </div>
+                  <>
+                    <TotalPrice
+                      services={allSelectedServices}
+                      total={serviceTotalPrice}
+                    />
+                    <div className='mt-3 d-flex justify-content-end'>
+                      <Button
+                        variant='primary'
+                        onClick={() => console.log('Proceed to Checkout')}
+                      >
+                        Proceed to next step
+                      </Button>
+                    </div>
+                  </>
                 ) : (
                   <div className='text-center mt-3'>
                     <p className='text-muted'>No services selected</p>

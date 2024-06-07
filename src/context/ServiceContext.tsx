@@ -12,6 +12,7 @@ type ServiceContextType = {
   listOfServices: ServiceProps[];
   selectedServices: SelectedServices[];
   selectedPharmacy: PharmacyDataProps | null;
+  serviceTotalPrice: number;
   setSelectedServices: (services: SelectedServices[]) => void;
   setSelectedPharmacy: (pharmacy: PharmacyDataProps | null) => void;
   getItemQuantity: (id: string) => number;
@@ -41,6 +42,7 @@ export const Provider = ({ children }: ServiceProvider) => {
   );
   const [selectedPharmacy, setSelectedPharmacy] =
     useState<PharmacyDataProps | null>(null);
+  const [serviceTotalPrice, setServiceTotalPrice] = useState(0);
 
   // This effect resets the list of services and selected services when a new pharmacy is selected.
   useEffect(() => {
@@ -48,7 +50,20 @@ export const Provider = ({ children }: ServiceProvider) => {
       prev.map((item) => ({ ...item, selected: false, quantity: 0 }))
     );
     setSelectedServices([]);
+    setServiceTotalPrice(0);
   }, [selectedPharmacy]);
+
+  // This effect updates the selected services and the total price when the list of services or the selected pharmacy changes.
+  useEffect(() => {
+    const updatedSelectedServices = listOfServices.filter(
+      (item) => item.selected
+    );
+    const allSelectedServices = updatedSelectedServices.flatMap((services) =>
+      new Array(services.quantity).fill(services)
+    );
+    setSelectedServices(allSelectedServices);
+    setServiceTotalPrice(calculateTotal(updatedSelectedServices));
+  }, [listOfServices, selectedPharmacy]);
 
   // This function returns the quantity of the service with the given id.
   const getItemQuantity = (id: string) => {
@@ -96,12 +111,22 @@ export const Provider = ({ children }: ServiceProvider) => {
     );
   };
 
+  // This effect calculates the total price of the selected services.
+  const calculateTotal = (services: ServiceProps[]) => {
+    return services.reduce(
+      (prevValue, currValue) =>
+        prevValue + currValue.price * (currValue.quantity || 0),
+      0
+    );
+  };
+
   return (
     <ServiceContext.Provider
       value={{
         listOfServices,
         selectedServices,
         selectedPharmacy,
+        serviceTotalPrice,
         setSelectedServices,
         setSelectedPharmacy,
         getItemQuantity,
