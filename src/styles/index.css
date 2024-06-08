@@ -90,6 +90,10 @@ ul {
   margin-right: 0 !important;
 }
 
+.subtotal {
+  border-top: 2px solid var(--color-dark);
+}
+
 /* Small devices (landscape phones, 576px and up) */
 @media (max-width: 576px) {
   .mapboxgl {
